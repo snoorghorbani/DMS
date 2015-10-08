@@ -1,0 +1,33 @@
+<section ng-controller="DocumentTypesController" ng-init="find()">
+    <div class="ui inverted top attached olive header">
+        DocumentTypes
+    </div>
+    <div class="ui attached segment">
+        <div class="ui four doubling olive cards">
+            <div ng-repeat="documentType in documentTypes" ui-sref="documentTypes.view({documentTypeId: documentType._id})" class="card">
+                <div class="content">
+                    <div class="header" ng-bind="documentType.title"></div>
+                    <div class="meta">
+                        <span class="category" ng-bind="documentType.user.displayName"></span>
+                        <span class="right floated time" ng-bind="documentType.created | date:'mediumDate'"></span>
+                    </div>
+                    <div class="ui label" ng-repeat="key in documentType.keys">
+                        {{key.name}}
+                    </div>
+                    <div class="description" ng-bind="documentType.description"></div>
+                </div>
+                <div class="extra content">
+                    <a ui-sref="documentTypes.edit({documentTypeId: documentType._id})"><i class="edit icon"></i></a>
+                    <a ui-sref="documentTypes.view({documentTypeId: documentType._id})"><i class="chevron right icon"></i></a>
+                </div>
+                <!--<div class="ui bottom attached button">
+                    <i class="add icon"></i>
+                    Add Friend
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-warning text-center" ng-if="documentTypes.$resolved && !documentTypes.length">
+        No documentTypes yet, why don't you <a ui-sref="documentTypes.create">create one</a>?
+    </div>
+</section>

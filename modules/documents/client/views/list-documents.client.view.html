@@ -1,0 +1,37 @@
+<section ng-controller="DocumentsController" ng-init="find()">
+    <div class="ui inverted top attached olive header">
+        Documents
+    </div>
+    <div class="ui attached segment">
+        <div class="ui four doubling olive cards">
+            <div ng-repeat="document in documents" ui-sref="documents.view({documentId: document._id})" class="card">
+                <div class="content">
+                    <i class="right floated shop icon" ng-hide="document.haveInCollection"></i>
+                    <i class="right floated radio icon" ng-show="document.readState == 'read later'"></i>
+                    <i class="right floated selected  radio icon" ng-show="document.readState == 'in progress'"></i>
+                    <i class="right floated check circle outline icon" ng-show="document.readState == 'compeleted'"></i>
+                    <div class="header" ng-bind="document.title"></div>
+                    <div class="meta">
+                        <span class="category" ng-bind="document.user.displayName"></span>
+                        <span class="right floated time" ng-bind="document.created | date:'mediumDate'"></span>
+                    </div>
+                    <div class="ui label" ng-repeat="value in document.values">
+                        {{value[0]}}
+                    </div>
+                    <div class="description" ng-bind="document.description"></div>
+                </div>
+                <div class="extra content">
+                    <a ui-sref="documents.edit({documentId: document._id})"><i class="edit icon"></i></a>
+                    <a ui-sref="documents.view({documentId: document._id})"><i class="chevron right icon"></i></a>
+                </div>
+                <!--<div class="ui bottom attached button">
+                    <i class="add icon"></i>
+                    Add Friend
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-warning text-center" ng-if="documents.$resolved && !documents.length">
+        No documents yet, why don't you <a ui-sref="documents.create">create one</a>?
+    </div>
+</section>

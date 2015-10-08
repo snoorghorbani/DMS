@@ -1,0 +1,31 @@
+<div class="ui container" ng-controller="HeaderController">
+    <nav class="ui top fixed inverted olive menu" collapse="!isCollapsed" role="navigation">
+        <a ui-sref="home" class="item">GTag</a>
+
+        <div ng-repeat="item in menu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-switch="item.type"
+             ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}} ui dropdown item">
+            <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+            <div class="menu">
+                <a class="item" ng-repeat="subitem in item.items | orderBy: 'position'" ng-if="subitem.shouldRender(authentication.user);" ui-sref-active="active" ui-sref="{{subitem.state}}" ng-bind="subitem.title"></a>
+            </div>
+
+              <!--<a ng-switch-default ui-sref="{{item.state}}" ng-bind="item.title"></a>-->
+        </div>
+
+        <a class="right item" ui-sref-active="active" ui-sref="authentication.signup" ng-hide="authentication.user">Sign Up</a>
+        <a class="right item" ui-sref-active="active" ui-sref="authentication.signin" ng-hide="authentication.user">Sign In</a>
+        <div class="ui dropdown right item" ng-show="authentication.user">
+            <img ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
+            <span ng-bind="authentication.user.displayName"></span>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <a ui-sref-active="active" class="item" ui-sref="settings.profile">Edit Profile</a>
+                <a ui-sref-active="active" class="item" ui-sref="settings.picture">Change Profile Picture</a>
+                <a ui-sref-active="active" class="item" ng-show="authentication.user.provider === 'local'" ui-sref="settings.password">Change Password</a>
+                <a ui-sref-active="active" class="item" ui-sref="settings.accounts">Manage Social Accounts</a>
+                <div class="divider"></div>
+                <a href="/api/auth/signout" class="item" target="_self">Signout</a>
+            </div>
+        </div>
+    </nav>
+</div>

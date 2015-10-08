@@ -1,0 +1,55 @@
+<section ng-controller="DocumentsController" ng-init="findOne()">
+    <div class="ui inverted top attached olive header">
+        <h1>Edit Document</h1>
+    </div>
+    <div class="ui attached segment">
+        <form name="documentForm" class="ui form" ng-submit="update(documentForm.$valid)" novalidate>
+            <select id="docuemntType" ng-model="document.type._id" required class="ui selection dropdown field">
+                <option class="item" ng-repeat="dt in documentTypes" value="{{dt._id}}">{{dt.title}}</option>
+            </select>
+            <div class="one fields" ng-repeat="key in document.type.keys track by $index" ng-switch on="key.type">
+                <div class="sixteen wide field" ng-switch-when="text">
+                    <label ng-bind="key.name"></label>
+                    <input type="text" ng-init="document.values[key._id] =document.values[key._id]|| [key.name]" ng-model="document.values[key._id][1]" placeholder="value : default is {{key.default || ' not defiend'}}">
+                </div>
+                <div class="sixteen wide field" ng-switch-when="number">
+                    <label ng-bind="key.name" id="title"></label>
+                    <input type="number" ng-init="document.values[key._id] =document.values[key._id]|| [key.name]" ng-model="document.values[key._id][1]" placeholder="value : default is {{key.default || ' not defiend'}}">
+                </div>
+                <div class="sixteen wide field" ng-switch-when="date">
+                    <label ng-bind="key.name" id="title"></label>
+                    <input type="date" ng-init="document.values[key._id] =document.values[key._id]|| [key.name]" ng-model="document.values[key._id][1]" placeholder="value : default is {{key.default || ' not defiend'}}">
+                </div>
+                <div class="sixteen wide field" ng-switch-when="string">
+                    <label ng-bind="key.name" id="title"></label>
+                    <textarea ng-init="document.values[key._id] =document.values[key._id]|| [key.name]" ng-model="document.values[key._id][1]" placeholder="value : default is {{key.default || ' not defiend'}}"></textarea>
+                </div>
+            </div>
+            <div class="ui olive header">Collection Level Data</div>
+            <div class="ui olive segment">
+                <div class="four fields">
+                    <div class="ui slider checkbox field" ng-model="document.haveInCollection">
+                        <label>have in collection</label>
+                        <input type="checkbox" value="have in collection" />
+                    </div>
+                    <select class="ui dropdown field" ng-model="document.readState">
+                        <label>Read State</label>
+                        <option class="item" value="compeleted">Compeleted</option>
+                        <option class="item" value="read later">Read Later</option>
+                        <option class="item" value="in progress">In Progress</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui buttons">
+                    <input type="submit" value="Update" class="ui button">
+                    <input type="button" value="Remove" class="ui button" ng-click="remove(document)">
+                </div>
+            </div>
+
+            <div ng-show="error" class="text-danger">
+                <strong ng-bind="error"></strong>
+            </div>
+        </form>
+    </div>
+</section>
