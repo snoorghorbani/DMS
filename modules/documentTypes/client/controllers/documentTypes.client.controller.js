@@ -1,8 +1,8 @@
 'use strict';
 
 // DocumentTypes controller
-angular.module('documentTypes').controller('DocumentTypesController', ['$scope', '$stateParams', '$location', 'Authentication', 'DocumentTypes',
-  function ($scope, $stateParams, $location, Authentication, DocumentTypes) {
+angular.module('documentTypes').controller('DocumentTypesController', ['$scope', '$stateParams', '$location', 'Authentication', 'DocumentTypes', 'Documents',
+  function ($scope, $stateParams, $location, Authentication, DocumentTypes, Documents) {
       $scope.authentication = Authentication;
 
       // Create new DocumentType
@@ -93,5 +93,10 @@ angular.module('documentTypes').controller('DocumentTypesController', ['$scope',
       $scope.changeNewkeyType = function (type) {
           $scope.newProp.type = type;
       };
+
+      $scope.relatedDocument = [];
+      $scope.findRelatedDocument = function () {
+          $scope.relatedDocument = Documents.query({ "type": $stateParams.documentTypeId });
+      }
   }
 ]);

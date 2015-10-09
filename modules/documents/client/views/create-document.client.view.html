@@ -4,10 +4,10 @@
     </div>
     <div class="ui attached segment">
         <form name="documentForm" class="ui form" ng-submit="create(documentForm.$valid)" novalidate>
-            <div class="field">
+            <!--<div class="field">
                 <label for="title">Title</label>
                 <input name="title" type="text" ng-model="document.title" id="title" class="" placeholder="Title" required>
-            </div>
+            </div>-->
             <select id="docuemntType" ng-model="document.type" required class="ui selection dropdown field">
                 <option class="item" ng-repeat="dt in documentTypes" value="{{dt._id}}">{{dt.title}}</option>
             </select>

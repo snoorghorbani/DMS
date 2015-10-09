@@ -1,0 +1,15 @@
+<section ng-controller="TagsController" ng-init="tag={}">
+    <div class="ui inverted top attached olive header">
+        New Tag
+    </div>
+    <div class="ui attached segment">
+        <form name="tagForm" class="ui form" ng-submit="create(tagForm.$valid)" novalidate>
+            <div class="field">
+                <label for="name">Title</label>
+                <input name="name" type="text" ng-model="tag.name" id="name" class="" placeholder="name" required>
+            </div>
+
+            <div class="field"><input type="submit" class="ui button"></div>
+        </form>
+    </div>
+</section>

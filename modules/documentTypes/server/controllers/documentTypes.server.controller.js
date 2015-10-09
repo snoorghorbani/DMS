@@ -100,7 +100,7 @@ exports.documentTypeByID = function (req, res, next, id) {
     });
   }
 
-  DocumentType.findById(id).populate('user', 'displayName').exec(function (err, documentType) {
+  DocumentType.findById(id).populate('user', 'displayName').populate('documents').exec(function (err, documentType) {
     if (err) {
       return next(err);
     } else if (!documentType) {

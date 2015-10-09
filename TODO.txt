@@ -1,0 +1,9 @@
+set identifier on document type keys
+remove article
+add document type count
+add document count
+add tag count
+document type fields
+	multi
+note
+tag relation

@@ -1,0 +1,46 @@
+<section ng-controller="TagsController" ng-init="findOne()">
+    <div class="ui inverted top attached olive header">
+        <h1>Edit Tag</h1>
+    </div>
+    <div class="ui attached segment">
+        <form name="tagForm" class="ui form" ng-submit="update(tagForm.$valid)" novalidate>
+
+                <div class="sixteen wide field">
+                    <label >Name</label>
+                    <input type="text" ng-model="tag.name" >
+                </div>
+
+            <div class="ui olive header">RelatedTag</div>
+            <div class="ui olive segment">
+                <select name="skills" multiple="" class="ui fluid dropdown">
+                    <option value="">Skills</option>
+                    <option value="angular">Angular</option>
+                    <option value="css">CSS</option>
+                    <option value="design">Graphic Design</option>
+                    <option value="ember">Ember</option>
+                    <option value="html">HTML</option>
+                    <option value="ia">Information Architecture</option>
+                    <option value="javascript">Javascript</option>
+                    <option value="mech">Mechanical Engineering</option>
+                    <option value="meteor">Meteor</option>
+                    <option value="node">NodeJS</option>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="python">Python</option>
+                    <option value="rails">Rails</option>
+                    <option value="react">React</option>
+                    <option value="repair">Kitchen Repair</option>
+                    <option value="ruby">Ruby</option>
+                    <option value="ui">UI Design</option>
+                    <option value="ux">User Experience</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <div class="ui buttons">
+                    <input type="submit" value="Update" class="ui button">
+                    <input type="button" value="Remove" class="ui button" ng-click="remove(tag)">
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

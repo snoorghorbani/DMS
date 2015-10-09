@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 var path = require('path'),
+    _ = require('lodash'),
   mongoose = require('mongoose'),
   Document = mongoose.model('Document'),
   DocumentType = mongoose.model('DocumentType'),
@@ -18,12 +19,16 @@ exports.create = function (req, res) {
     DocumentType.findById(req.body.type, function (err, documentType) {
         document.type = documentType._id;
 
-        document.save(function (err) {
+        document.save(function (err, document) {
             if (err) {
                 return res.status(400).send({
                     message: errorHandler.getErrorMessage(err)
                 });
             } else {
+                debugger
+                DocumentType.findByIdAndUpdate(document.type, { $push: { documents: document } }, function () {
+                    debugger
+                })
                 res.json(document);
             }
         });
@@ -34,7 +39,7 @@ exports.create = function (req, res) {
  * Show the current document
  */
 exports.read = function (req, res) {
-    res.json(req.document);
+    res.json(req.document.toJSON({ virtuals: true }));
 };
 
 /**
@@ -52,6 +57,7 @@ exports.update = function (req, res) {
     document.values = req.body.values;
     document.haveInCollection = req.body.haveInCollection;
     document.readState = req.body.readState;
+    document.tags = req.body.tags;
 
     document.save(function (err) {
         if (err) {
@@ -85,13 +91,17 @@ exports.delete = function (req, res) {
  * List of Documents
  */
 exports.list = function (req, res) {
-    Document.find().sort('-created').populate('user', 'displayName').exec(function (err, documents) {
+    Document.find().sort('-created').populate('user', 'displayName').populate('type').exec(function (err, documents) {
         if (err) {
             return res.status(400).send({
                 message: errorHandler.getErrorMessage(err)
             });
         } else {
-            res.json(documents);
+            var documentsWithVirtual = [];
+            _.each(documents, function (document) {
+                documentsWithVirtual.push(document.toJSON({ virtuals: true }));
+            });
+            res.json(documentsWithVirtual);
         }
     });
 };

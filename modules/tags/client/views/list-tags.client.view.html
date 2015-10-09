@@ -1,0 +1,30 @@
+<section ng-controller="TagsController" ng-init="find()">
+    <h4 class="ui inverted top attached olive header">
+        <i class="tag icon"></i>
+        Tags
+    </h4>
+    <div class="ui attached segment">
+        <div class="ui four doubling olive cards">
+            <div ng-repeat="tag in tags" class="card">
+                <div class="content">
+                    <div class="header" ng-bind="tag.name"></div>
+                    <div class="meta">
+                        <span class="category" ng-bind="tag.user.displayName"></span>
+                        <span class="right floated time" ng-bind="tag.created | date:'mediumDate'"></span>
+                    </div>
+                    <!--<div class="ui label<!--" ng-repeat="value in tag.values">
+                        {{value[0]}}
+                    </div>-->
+                    <div class="description" ng-bind="tag.description"></div>
+                </div>
+                <div class="extra content">
+                    <a ui-sref="tags.edit({tagId: tag._id})"><i class="edit icon"></i></a>
+                    <a ui-sref="tags.view({tagId: tag._id})"><i class="chevron right icon"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-warning text-center" ng-if="tags.$resolved && !tags.length">
+        No tags yet, why don't you <a ui-sref="tags.create">create one</a>?
+    </div>
+</section>

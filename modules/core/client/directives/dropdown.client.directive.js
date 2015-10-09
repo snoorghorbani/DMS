@@ -6,13 +6,16 @@ angular.module('core').directive('dropdown', [
 	        restrict: 'C',
 	        link: function postLink(scope, element, attrs) {
 	            var checked;
-	            scope.$watch(attrs.ngModel, function (value) {
-	                if(!value) return;
+	            var firstTime = true;
+	            attrs.ngModel && scope.$watch(attrs.ngModel, function (value) {
+	                if (!value || !firstTime) return;
+	                firstTime = false;
                     $(element).dropdown("set selected", value);
 	            });
 
 	            $(element).dropdown({
 	                onChange: function (value, test, el) {
+	                    if (!attrs.ngModel) return true;
 	                    var path = attrs.ngModel.split('.');
 	                    if (path.length == 1) {
 	                        scope[path[0]] = value;
