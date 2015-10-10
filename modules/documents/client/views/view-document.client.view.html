@@ -13,12 +13,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="(k,v) in document.value">
+            <tr ng-repeat="(k,vs) in document.value">
                 <td>
                     {{k}}
                 </td>
                 <td>
-                    {{v}}
+                    <div ng-repeat="v in vs">{{v}}</div>
                 </td>
             </tr>
         </tbody>

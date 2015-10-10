@@ -34,10 +34,15 @@ var DocumentTypeSchema = new Schema({
         "type": {
             type: String,
             default: 'string',
-            enum: ['number', 'text', 'string', 'boolean', 'date', 'regex']
+            enum: ['number', 'text', 'string', 'boolean', 'date', 'regex', 'file']
         },
-        "default": String,
-        value: String
+        "default": [String],
+        value: String,
+        multi: {
+            type: Boolean,
+            default: false
+        },
+        data: {}
     }],
     documents: [{
         type: Schema.ObjectId,

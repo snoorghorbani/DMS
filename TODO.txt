@@ -4,6 +4,7 @@ add document type count
 add document count
 add tag count
 document type fields
-	multi
+	group
+	entity relation : add relation to document type filed type
 note
 tag relation

@@ -98,5 +98,14 @@ angular.module('documentTypes').controller('DocumentTypesController', ['$scope',
       $scope.findRelatedDocument = function () {
           $scope.relatedDocument = Documents.query({ "type": $stateParams.documentTypeId });
       }
+      $scope.fieldTypes = ["string", "text", "number", "boolean", "date", "regex", "file"];
+      $scope.addDocumnetTypeToFieldTypes = function () {
+          $scope.find();
+          $scope.documentTypes.$promise.then(function (data) {
+              for (var i = 0; i < data.length; i++) {
+                  $scope.fieldTypes.push(data[i].title);
+              }
+          });
+      };
   }
 ]);

@@ -15,21 +15,19 @@
             <!--===================-->
             <div class="four fields" ng-repeat="key in documentType.keys">
                 <div class="field">
-                    <!--<label for="name">name</label>-->
                     <input name="name" type="text" ng-model="key.name" id="title" placeholder="name" required>
                 </div>
                 <div class="field">
-                    <!--<label for="type">type</label>-->
-                    <!--<input name="type" type="text" ng-model="key.type" id="type" placeholder="type">-->
                     <div id="newKeyType" class="ui selection dropdown">
                         <input type="text" ng-model="key.type">{{key.type}}</input>
                     </div>
                 </div>
                 <div class="field">
-                    <!--<label for="default">default</label>-->
                     <input name="v" type="text" ng-model="key.default" id="default" placeholder="default">
                 </div>
-                <div class="field">
+                <div class="ui toggle checkbox field" ng-model="key.multi">
+                    <label>Is Multi</label>
+                    <input type="checkbox">
                 </div>
             </div>
 
@@ -48,34 +46,28 @@
         </div>
         <div class="ui olive segment">
             <div class="ui form">
-                <div class="four fields">
+                <div class="five fields">
                     <div class="field">
-                        <!--<label for="name">name</label>-->
                         <input name="name" type="text" ng-model="newProp.name" id="title" placeholder="name" required>
                     </div>
                     <div class="field">
-                        <!--<label for="type">type</label>-->
-                        <!--<input name="type" type="text" ng-model="newProp.type" id="type" placeholder="type">-->
                         <div id="newKeyType" class="ui selection dropdown">
                             <input type="hidden" ng-model="newProp.type" name="gender">
                             <i class="dropdown icon"></i>
                             <div class="default text"><!--Gender--></div>
                             <div class="menu">
-                                <div ng-click="changeNewkeyType('string')" class="item active" data-value="string">string</div>
-                                <div ng-click="changeNewkeyType('text')" class="item active" data-value="text">text</div>
-                                <div ng-click="changeNewkeyType('number')" class="item" data-value="number">number</div>
-                                <div ng-click="changeNewkeyType('boolean')" class="item" data-value="boolean">boolean</div>
-                                <div ng-click="changeNewkeyType('date')" class="item" data-value="date">date</div>
-                                <div ng-click="changeNewkeyType('regex')" class="item" data-value="regex">regex</div>
-                                <div ng-click="changeNewkeyType('file')" class="item" data-value="file">file</div>
+                                <div ng-click="changeNewkeyType(type)" class="item active" data-value="{{type}}" ng-repeat="type in fieldTypes">{{type}}</div>
                             </div>
                         </div>
                     </div>
                     <div class="field">
-                        <!--<label for="default">default</label>-->
                         <input name="v" type="text" ng-model="newProp.default" id="default" placeholder="default">
                     </div>
-                    <div class="field">
+                    <div class="ui toggle checkbox field">
+                        <label>Is Multi</label>
+                        <input type="checkbox" ng-model="newProp.multi" >
+                    </div>
+                    <div class="field" ng-init="addDocumnetTypeToFieldTypes()">
                         <input type="button" value="Add" class="ui fluid button" ng-click="addProperty()">
                     </div>
                 </div>

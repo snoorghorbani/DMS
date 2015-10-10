@@ -59,6 +59,10 @@ angular.module('documents').controller('DocumentsController', ['$scope', '$state
 
           var document = $scope.document;
           //var tag;
+          for (var i in $scope.document.values)
+              for (var j = $scope.document.values[i][1].length; j > 0; j--)
+                  if ($scope.document.values[i][1][j] === '')
+                      $scope.document.values[i][1].splice(j, 1);
 
           document.$update(function () {
               $location.path('documents/' + document._id);
@@ -94,6 +98,11 @@ angular.module('documents').controller('DocumentsController', ['$scope', '$state
               for (var i = 0; i < data.tags.length; i++)
                   $scope.selectedTags.push(data.tags[i].tagId);
 
+              for (var i = 0; i < data.type.keys.length; i++) {
+                  if (!data.values[data.type.keys[i]._id]) {
+                      $scope.document.values[data.type.keys[i]._id] = [data.type.keys[i].name, [""]];
+                  }
+              }
               //$scope.document.key = {};
               //for (var i = 0; i < data.type.keys.length; i++)
               //    $scope.document.key[data.type.keys[i].name] = data.type.keys[i];
@@ -148,11 +157,14 @@ angular.module('documents').controller('DocumentsController', ['$scope', '$state
       };
       $scope.selectFile = function (el) {
           var path = el.value;
-          debugger
           var keyId = el.getAttribute("key-id");
           var keyName = el.getAttribute("key-name");
-          $scope.document.values[keyId] = [keyName , path];
+          var valueIndex = el.getAttribute("value-index");
+          $scope.document.values[keyId][1][valueIndex] = path;
           $scope.$apply();
       }
+      $scope.addKeyValues = function (key) {
+          $scope.document.values[key._id][1].push("");
+      };
   }
 ]);

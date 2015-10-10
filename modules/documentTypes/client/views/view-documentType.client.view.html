@@ -22,9 +22,10 @@
     <table class="ui olive table">
         <thead>
             <tr>
-                <th>name</th>
-                <th>type</th>
-                <th>default</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Default</th>
+                <th>Is Multi</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,10 @@
                 <td>{{key.name}}</td>
                 <td>{{key.type}}</td>
                 <td>{{key.default}}</td>
+                <td>
+                    <i class="ui checkmark green icon" ng-show="key.multi"></i>
+                    <i class="ui remove red icon" ng-hide="key.multi"></i>
+                </td>
             </tr>
         </tbody>
     </table>
