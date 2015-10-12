@@ -8,3 +8,5 @@ document type fields
 	entity relation : add relation to document type filed type
 note
 tag relation
+os apps
+sync with database

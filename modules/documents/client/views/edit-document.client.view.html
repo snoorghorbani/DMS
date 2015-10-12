@@ -30,6 +30,12 @@
                     <input type="file" onchange="angular.element(this).scope().selectFile(this)" value-index="{{$index}}" key-id="{{key._id}}" key-name="{{key.name}}">
                     <input type="text" ng-init="document.values[key._id] = document.values[key._id] || [key.name]" ng-model="document.values[key._id][1][$index]">
                 </div>
+                <div class="sixteen wide field" ng-switch-when="relation" ng-repeat="value in document.values[key._id][1] track by $index">
+                    <label><i class="ui add square link olive icon" ng-show="key.multi" ng-click="addKeyValues(key)"></i><span ng-bind="key.name"></span></label>
+                    <select class="ui selection dropdown field" ng-init="find()">
+                        <option class="item active" value="{{doc._id}}" ng-repeat="doc in documents">{{doc.value.Title[0]}}</option>
+                    </select>
+                </div>
                 <!--<div class="sixteen wide field" ng-switch-when="file">
                     <label><i class="ui plus icon" ng-show="key.multi"></i><span ng-bind="key.name"></span></label>
                 </div>-->

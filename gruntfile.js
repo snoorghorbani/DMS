@@ -218,6 +218,13 @@ module.exports = function (grunt) {
           return !fs.existsSync('config/env/local.js');
         }
       }
+    },
+    nwjs: {
+        options: {
+            platforms: ['win', 'osx'],
+            buildDir: './webkitbuilds', // Where the build version of my NW.js app is saved
+        },
+        src: ['./**/*.js'] // Your NW.js app
     }
   });
 
@@ -291,4 +298,6 @@ module.exports = function (grunt) {
 
   // Run the project in production mode
   grunt.registerTask('prod', ['build', 'env:prod', 'mkdir:upload', 'copy:localConfig', 'concurrent:default']);
+
+  grunt.loadNpmTasks('grunt-nw-builder');
 };

@@ -4,13 +4,17 @@ angular.module('core').directive('dropdown', [
 	function () {
 	    return {
 	        restrict: 'C',
+            priority:-999,
 	        link: function postLink(scope, element, attrs) {
 	            var checked;
 	            var firstTime = true;
 	            attrs.ngModel && scope.$watch(attrs.ngModel, function (value) {
-	                if (!value || !firstTime) return;
+	                //if (!value || !firstTime) return;
+	                if (!value) return;
 	                firstTime = false;
+	                setTimeout(function () {
                     $(element).dropdown("set selected", value);
+	                }, 333);
 	            });
 
 	            $(element).dropdown({

@@ -17,12 +17,32 @@
                 <div class="field">
                     <input name="name" type="text" ng-model="key.name" id="title" placeholder="name" required>
                 </div>
-                <div class="field">
-                    <div id="newKeyType" class="ui selection dropdown">
-                        <input type="text" ng-model="key.type">{{key.type}}</input>
-                    </div>
+
+                <!--<div>
+                    <!--<input name="name" type="text" ng-model="key.type" required>
+                    </div-->
+                <!--<select class="ui selection dropdown field" ng-model="key.type">
+                    <option class="item active" value="text">text</option>
+                    <option class="item active" value="file">file</option>
+                    <option class="item active" value="number">number</option>
+                    <option class="item active" value="string">string</option>
+                    <option class="item active" value="boolean">boolean</option>
+                    <option class="item active" value="date">date</option>
+                    <option class="item active" value="regex">regex</option>
+                    <option class="item active" value="date">date</option>
+                    <option class="item active" value="relation">relation</option>
+                </select>-->
+
+                <select class="ui selection dropdown field" ng-model="key.type">
+                    <option class="item active" value="{{type}}" ng-repeat="type in fieldTypes">{{type}}</option>
+                </select>
+
+                <div class="field" ng-show="key.type=='relation'">
+                    <select class="ui selection dropdown" ng-init="key.data = key.data || {}" ng-model="key.data.relatingDocumentType">
+                        <option class="item active" value="{{type._id}}" ng-repeat="type in documentTypes">{{type.title}}</option>
+                    </select>
                 </div>
-                <div class="field">
+                <div class="field" ng-hide="key.type=='relation'">
                     <input name="v" type="text" ng-model="key.default" id="default" placeholder="default">
                 </div>
                 <div class="ui toggle checkbox field" ng-model="key.multi">
@@ -65,7 +85,7 @@
                     </div>
                     <div class="ui toggle checkbox field">
                         <label>Is Multi</label>
-                        <input type="checkbox" ng-model="newProp.multi" >
+                        <input type="checkbox" ng-model="newProp.multi">
                     </div>
                     <div class="field" ng-init="addDocumnetTypeToFieldTypes()">
                         <input type="button" value="Add" class="ui fluid button" ng-click="addProperty()">
