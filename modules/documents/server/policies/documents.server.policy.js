@@ -29,15 +29,18 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/documents/:documentId',
       permissions: ['get']
+    }, {
+      resources: '/api/documents/instantiate',
+      permissions: ['get']
     }]
   }, {
     roles: ['guest'],
     allows: [{
       resources: '/api/documents',
-      permissions: ['get']
+      permissions: []
     }, {
       resources: '/api/documents/:documentId',
-      permissions: ['get']
+      permissions: []
     }]
   }]);
 };

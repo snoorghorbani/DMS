@@ -11,7 +11,8 @@ module.exports = function (app) {
   app.route('/api/documents').all(documentsPolicy.isAllowed)
     .get(documents.list)
     .post(documents.create);
-
+  app.route('/api/documents/instantiate').all(documentsPolicy.isAllowed)
+    .get(documents.instantiate);
   // Single document routes
   app.route('/api/documents/:documentId').all(documentsPolicy.isAllowed)
     .get(documents.read)

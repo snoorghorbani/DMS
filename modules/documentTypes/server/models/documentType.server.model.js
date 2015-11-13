@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+    Schema = mongoose.Schema;
 
 /**
  * DocumentType Schema
@@ -39,6 +39,14 @@ var DocumentTypeSchema = new Schema({
         "default": [String],
         value: String,
         multi: {
+            type: Boolean,
+            default: false
+        },
+        batch: {
+            type: Boolean,
+            default: false
+        },
+        primary: {
             type: Boolean,
             default: false
         },

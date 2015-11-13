@@ -1,16 +1,16 @@
 <section ng-controller="DocumentTypesController" ng-init="findOne()">
-  <div class="page-header">
-    <h1 ng-bind="documentType.title"></h1>
-  </div>
-  <div class="pull-right" ng-show="authentication.user._id == documentType.user._id">
-    <a class="btn btn-primary" ui-sref="documentTypes.edit({documentTypeId: documentType._id})">
-      <i class="glyphicon glyphicon-edit"></i>
-    </a>
-    <a class="btn btn-primary" ng-click="remove();">
-      <i class="glyphicon glyphicon-trash"></i>
-    </a>
-  </div>
-  <small>
+    <div class="page-header">
+        <h1 ng-bind="documentType.title"></h1>
+    </div>
+    <div class="pull-right" ng-show="authentication.user._id == documentType.user._id">
+        <a class="btn btn-primary" ui-sref="documentTypes.edit({documentTypeId: documentType._id})">
+            <i class="glyphicon glyphicon-edit"></i>
+        </a>
+        <a class="btn btn-primary" ng-click="remove();">
+            <i class="glyphicon glyphicon-trash"></i>
+        </a>
+    </div>
+    <small>
     <em class="text-muted">
       Posted on
       <span ng-bind="documentType.created | date:'mediumDate'"></span>
@@ -26,16 +26,28 @@
                 <th>Type</th>
                 <th>Default</th>
                 <th>Is Multi</th>
+                <th>Is Batch</th>
+                <th>Is Primary</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="key in documentType.keys">
                 <td>{{key.name}}</td>
                 <td>{{key.type}}</td>
-                <td>{{key.default}}</td>
+                <td>
+                    <span class='ui label' ng-repeat="d in key.default" ng-bind="d"  ng-show="key.default.length > 0 && key.default[0] !=''">
+                </td>
                 <td>
                     <i class="ui checkmark green icon" ng-show="key.multi"></i>
                     <i class="ui remove red icon" ng-hide="key.multi"></i>
+                </td>
+                <td>
+                    <i class="ui checkmark green icon" ng-show="key.batch"></i>
+                    <i class="ui remove red icon" ng-hide="key.batch"></i>
+                </td>
+                <td>
+                    <i class="ui checkmark green icon" ng-show="key.primary"></i>
+                    <i class="ui remove red icon" ng-hide="key.primary"></i>
                 </td>
             </tr>
         </tbody>
@@ -45,7 +57,7 @@
         Documents
     </div>
     <div class="ui ">
-        <div class="ui four doubling olive cards" >
+        <div class="ui four doubling olive cards">
             <div ng-repeat="document in documentType.documents" ui-sref="documents.view({documentId: document._id})" class="card">
                 <div class="content">
                     <i class="right floated shop icon" ng-hide="document.haveInCollection"></i>
@@ -55,25 +67,24 @@
                     <div class="header" ng-bind="document.value.Title"></div>
                     <div class="meta">
                         <span class="category" ng-bind="document.user.displayName"></span>
-                        <span class="right floated time" ng-bind="document.created | date:'mediumDate'"></span>
+                    <span class="right floated time" ng-bind="document.created | date:'mediumDate'"></span>
                     </div>
                     <div class="ui label" ng-repeat="value in document.values">{{value[0]}}</div>
 
                     <div class="description" ng-bind="document.description"></div>
-                </div>
-                <div class="extra content">
-                    <a ui-sref="documents.edit({documentId: document._id})"><i class="edit icon"></i></a>
-                    <a ui-sref="documents.view({documentId: document._id})"><i class="chevron right icon"></i></a>
-                    <div class="ui divider"></div>
-                    <div class="ui green label" ng-repeat="tag in document.tags">
-                        <i class="tag icon"></i>
-                        {{tag.name}}
-                        <a class="detail">{{tag.weight}}</a>
-                        <i class="delete icon" ng-click="disjoinTag(document , tag)"></i>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <div class="extra content">
+                        <a ui-sref="documents.edit({documentId: document._id})"><i class="edit icon"></i></a>
+                        <a ui-sref="documents.view({documentId: document._id})"><i class="chevron right icon"></i></a>
+                        <div class="ui divider"></div>
+                        <div class="ui green label" ng-repeat="tag in document.tags">
+                            <i class="tag icon"></i> {{tag.name}}
+                            <a class="detail">{{tag.weight}}</a>
+                            <i class="delete icon" ng-click="disjoinTag(document , tag)"></i>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
 
 </section>

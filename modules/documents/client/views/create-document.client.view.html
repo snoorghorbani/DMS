@@ -1,18 +1,116 @@
-<section ng-controller="DocumentsController" ng-init="document={}">
+<section ng-controller="DocumentsController" ng-init="instantiate()">
     <div class="ui inverted top attached olive header">
         New Document
     </div>
     <div class="ui attached segment">
-        <form name="documentForm" class="ui form" ng-submit="create(documentForm.$valid)" novalidate>
+        <form name="documentForm" class="ui form" ng-submit="batchCreate(documentForm.$valid)" novalidate>
             <!--<div class="field">
                 <label for="title">Title</label>
                 <input name="title" type="text" ng-model="document.title" id="title" class="" placeholder="Title" required>
             </div>-->
-            <select id="docuemntType" ng-model="document.type" required class="ui selection dropdown field">
+            <select id="docuemntType" ng-model="selectedType" ng-change="loadDocumnetType" on required class="ui selection dropdown field">
                 <option class="item" ng-repeat="dt in documentTypes" value="{{dt._id}}">{{dt.title}}</option>
             </select>
 
-            <div class="field"><input type="submit" class="ui button"></div>
+            <div class="one fields" ng-repeat="key in document.type.keys track by $index" ng-switch on="key.type">
+                <div class="sixteen wide field" ng-switch-when="text" ng-repeat="value in document.values[key._id][1] track by $index">
+                    <label><i class="ui add square link olive icon" ng-show="key.multi" ng-click="addKeyValues(key)"></i><span ng-bind="key.name"></span></label>
+                    <input type="text" ng-init="document.values[key._id] =document.values[key._id]|| [key.name]" ng-model="document.values[key._id][1][$index]"
+                    placeholder="value : default is {{key.default || ' not defiend'}}">
+                </div>
+                <div class="sixteen wide field" ng-switch-when="number" ng-repeat="value in document.values[key._id][1] track by $index">
+                    <label><i class="ui add square link olive icon" ng-show="key.multi" ng-click="addKeyValues(key)"></i><span ng-bind="key.name"></span></label>
+                    <input type="number" ng-init="document.values[key._id] =document.values[key._id]|| [key.name]" ng-model="document.values[key._id][1][$index]"
+                    placeholder="value : default is {{key.default || ' not defiend'}}">
+                </div>
+                <div class="sixteen wide field" ng-switch-when="date" ng-repeat="value in document.values[key._id][1] track by $index">
+                    <label><i class="ui add square link olive icon" ng-show="key.multi" ng-click="addKeyValues(key)"></i><span ng-bind="key.name"></span></label>
+                    <input type="date" ng-init="document.values[key._id] =document.values[key._id]|| [key.name]" ng-model="document.values[key._id][1][$index]"
+                    placeholder="value : default is {{key.default || ' not defiend'}}">
+                </div>
+                <div class="sixteen wide field" ng-switch-when="string" ng-repeat="value in document.values[key._id][1] track by $index">
+                    <label><i class="ui add square link olive icon" ng-show="key.multi" ng-click="addKeyValues(key)"></i><span ng-bind="key.name"></span></label>
+                    <textarea ng-init="document.values[key._id] =document.values[key._id]|| [key.name]" ng-model="document.values[key._id][1]"
+                    placeholder="value : default is {{key.default || ' not defiend'}}"></textarea>
+                </div>
+                <div class="sixteen wide field" ng-switch-when="file" ng-repeat="value in document.values[key._id][1] track by $index">
+                    <label>
+                        <i class="ui add square link olive icon" ng-show="key.multi" ng-click="addKeyValues(key)"></i>
+                        <span ng-bind="key.name"></span>
+                    </label>
+                    <input multiple type="file" onchange="angular.element(this).scope().selectFile(this)" value-index="{{$index}}" key-id="{{key._id}}"
+                    key-name="{{key.name}}">
+                    <input type="text" ng-init="document.values[key._id] = document.values[key._id] || [key.name]" ng-model="document.values[key._id][1][$index].path">
+                </div>
+                <div class="sixteen wide field" ng-switch-when="relation" ng-repeat="value in document.values[key._id][1] track by $index"  data-key-id="{{key._id}}">
+                    <label><i class="ui add square link olive icon" ng-show="key.multi" ng-click="addKeyValues(key)"></i><span ng-bind="key.name"></span></label>
+                    <select class="ui selection dropdown field" ng-model="documentRelationKey[key.name]" ng-change="changeRelation" ng-init="find()">
+                        <option class="item active" value="{{doc._id}}" ng-repeat="doc in documents">{{doc.value.primary[0]}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="ui olive header">Tags</div>
+            <div class="ui olive grid segment">
+                <div class="six wide column">
+                    <select ng-model="selectedTags" multiple="" class="ui fluid search dropdown">
+                        <option value="">Tags</option>
+                        <option ng-repeat="tag in tags" value="{{tag._id}}">{{tag.name}}</option>
+                    </select>
+                </div>
+                <div class="ten wide column">
+                    <div ng-repeat="tag in document.tags">
+                        <div class="ui header">{{tag.name}}</div>
+                        <div class="ui fluid buttons">
+                            <div class="ui button" ng-class="tag.weight==w ?'active':''" ng-model="tag.weight" ng-click="tag.weight=w" ng-repeat="w in weights">{{w}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui olive header">Collection Level Data</div>
+            <div class="ui olive segment">
+                <div class="four fields">
+                    <div class="ui slider checkbox field" ng-model="document.haveInCollection">
+                        <label>have in collection</label>
+                        <input type="checkbox" value="have in collection" />
+                    </div>
+                    <select class="ui dropdown field" ng-model="document.readState">
+                        <option class="item" value="compeleted">Compeleted</option>
+                        <option class="item" value="read later">Read Later</option>
+                        <option class="item" value="in progress">In Progress</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="field">
+                <input type="submit" class="ui button">
+                <input type="button" class="ui button" value="batch">
+            </div>
         </form>
+        <div class="ui olive header">Batch Import</div>
+        <div class="ui olive segment">
+            <div class="ui  field">
+                <label>have in collection</label>
+                <input multiple id="selectFiles" type="file" onchange="angular.element(this).scope().batchSelectFiles(this)">
+            </div>
+            <table class="ui table">
+                <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>path</th>
+                        <th>size</th>
+                        <th>type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="file in selectedBatchFiles">
+                        <td ng-bind="file.name"></td>
+                        <td ng-bind="file.path"></td>
+                        <td ng-bind="file.size"></td>
+                        <td ng-bind="file.type"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>

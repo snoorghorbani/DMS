@@ -13,7 +13,7 @@
             </div>
 
             <!--===================-->
-            <div class="four fields" ng-repeat="key in documentType.keys">
+            <div class="five fields" ng-repeat="key in documentType.keys">
                 <div class="field">
                     <input name="name" type="text" ng-model="key.name" id="title" placeholder="name" required>
                 </div>
@@ -49,6 +49,14 @@
                     <label>Is Multi</label>
                     <input type="checkbox">
                 </div>
+                <div class="ui radio checkbox field" ng-model="key.batch">
+                    <label>Is batch</label>
+                    <input type="radio" data-ng-checked="key.batch" ng-model="key.batch" name="batch">
+                </div>
+                <div class="ui radio checkbox field" ng-model="key.primary">
+                    <label>Is primary</label>
+                    <input type="radio" data-ng-checked="key.primary" ng-model="key.primary" name="primary">
+                </div>
             </div>
 
             <!--===================-->
@@ -74,7 +82,9 @@
                         <div id="newKeyType" class="ui selection dropdown">
                             <input type="hidden" ng-model="newProp.type" name="gender">
                             <i class="dropdown icon"></i>
-                            <div class="default text"><!--Gender--></div>
+                            <div class="default text">
+                                <!--Gender-->
+                            </div>
                             <div class="menu">
                                 <div ng-click="changeNewkeyType(type)" class="item active" data-value="{{type}}" ng-repeat="type in fieldTypes">{{type}}</div>
                             </div>

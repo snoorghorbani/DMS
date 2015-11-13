@@ -10,7 +10,7 @@
                     <i class="right floated radio icon" ng-show="document.readState == 'read later'"></i>
                     <i class="right floated selected  radio icon" ng-show="document.readState == 'in progress'"></i>
                     <i class="right floated check circle outline icon" ng-show="document.readState == 'compeleted'"></i>
-                    <div class="header" ng-bind="document.value.Title"></div>
+                    <div class="header" ng-bind="document.value.primary[0]"></div>
                     <div class="meta">
                         <span class="category" ng-bind="document.user.displayName"></span>
                         <span class="right floated time" ng-bind="document.created | date:'mediumDate'"></span>

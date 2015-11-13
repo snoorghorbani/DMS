@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('core').directive('dropdown', [
-	function () {
+angular.module('core').directive('dropdown', ['$parse',
+	function ($parse) {
 	    return {
 	        restrict: 'C',
             priority:-999,
@@ -20,15 +20,21 @@ angular.module('core').directive('dropdown', [
 	            $(element).dropdown({
 	                onChange: function (value, test, el) {
 	                    if (!attrs.ngModel) return true;
-	                    var path = attrs.ngModel.split('.');
-	                    if (path.length == 1) {
-	                        scope[path[0]] = value;
-	                    } else if (path.length == 2) {
-	                        scope[path[0]][path[1]] = value;
-	                    } else if (path.length == 3) {
-	                        scope[path[0]][path[1]][path[2]] = value;
-	                    }
+						var getter = $parse(attrs.ngModel);
+						var setter = getter.assign;
+						setter(scope,value);
+	                    // var path = attrs.ngModel.split('.');
+	                    // if (path.length == 1) {
+	                    //     scope[path[0]] = value;
+	                    // } else if (path.length == 2) {
+	                    //     scope[path[0]][path[1]] = value;
+	                    // } else if (path.length == 3) {
+	                    //     scope[path[0]][path[1]][path[2]] = value;
+	                    // }
 	                    scope.$apply();
+						
+						if(attrs.ngChange)
+							scope[attrs.ngChange](value, test, el[0]);
 	                }
 	            });
 

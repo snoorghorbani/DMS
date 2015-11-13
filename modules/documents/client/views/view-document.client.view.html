@@ -13,12 +13,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="(k,vs) in document.value">
+            <tr ng-repeat="key in document.type.keys">
                 <td>
-                    {{k}}
+                    {{key.name}}
                 </td>
                 <td>
-                    <div ng-repeat="v in vs">{{v}}</div>
+                    <div ng-repeat="v in document.values[key._id][1]">
+                        <span ng-hide="key.type=='relation'">{{v}}</span>
+                        <relation ng-show="key.type=='relation'" data-id="{{v}}">
+                    </div>
                 </td>
             </tr>
         </tbody>

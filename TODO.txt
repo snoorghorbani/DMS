@@ -1,12 +1,19 @@
-set identifier on document type keys
+OK	set identifier on document type keys
 remove article
 add document type count
 add document count
 add tag count
 document type fields
 	group
-	entity relation : add relation to document type filed type
+OK	entity relation : add relation to document type filed type
 note
 tag relation
 os apps
 sync with database
+
+required primary
+
+remove batch on person
+
+select file on edit
+

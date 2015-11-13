@@ -1,0 +1,14 @@
+<section ng-controller="DocumentsController" ng-init="document={}">
+    <div class="ui inverted top attached olive header">
+        New Document
+    </div>
+    <div class="ui attached segment">
+        <form name="documentForm" class="ui form" ng-submit="create(documentForm.$valid)" novalidate>
+            <select id="docuemntType" ng-model="document.type" required class="ui selection dropdown field">
+                <option class="item" ng-repeat="dt in documentTypes" value="{{dt._id}}">{{dt.title}}</option>
+            </select>
+
+            <div class="field"><input type="submit" class="ui button"></div>
+        </form>
+    </div>
+</section>
